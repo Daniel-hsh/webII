@@ -15,8 +15,9 @@ public class ConnectionFactory {
     public static Connection getConnection() {
         try{
             Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Conectado com sucesso!");
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/Exerc3",
+                    "jdbc:mysql://localhost:3306/exerc3",
                     "root", "root");
         }catch(Exception e) {
             throw new RuntimeException(e);

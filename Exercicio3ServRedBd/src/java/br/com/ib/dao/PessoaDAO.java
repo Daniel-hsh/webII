@@ -104,9 +104,55 @@ public class PessoaDAO {
         ResultSet rs = null;
         try {
             con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("insert into tb_usuario (user_id, user_login, user_pass, user_name) values (?, ?, ?, ?, ?)");
-            st.setString(1, pessoa.getNome());
+            
+            st = con.prepareStatement("insert into tb_usuario "
+                    + "(user_login, user_pass, user_name) "
+                    + "values (?, ?, ?)");
+            st.setString(1, pessoa.getLogin());
+            st.setString(2, pessoa.getSenha());
+            st.setString(3, pessoa.getNome());
             st.executeUpdate();
+            
+            System.out.println("Cadastrado com sucesso!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (Exception e) {
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+    
+public void atualizar(Pessoa pessoa) throws SQLException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            st = con.prepareStatement("update tb_usuario "
+                    + "set user_login=?, user_pass=?, user_name=? where user_id=?");
+            
+            st.setString(1, pessoa.getLogin());
+            st.setString(2, pessoa.getSenha());
+            st.setString(3, pessoa.getNome());
+            st.setInt(4, pessoa.getId());
+            st.executeQuery();
+            System.out.println("Atualizado com sucesso!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
